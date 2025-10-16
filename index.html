@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Battlefield 6 Stats Lookup</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.3/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" href="https://trackercdn.com/assets/battlefield6/icon.png" />
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-blue-900 min-h-screen flex flex-col items-center">
+
+  <header class="w-full p-8 text-center">
+    <h1 class="text-4xl font-extrabold text-white mb-2">Battlefield 6 Stats Lookup</h1>
+    <p class="text-lg text-blue-200">Search your Battlefield 6 stats powered by tracker.gg</p>
+  </header>
+
+  <main class="w-full max-w-2xl px-4 flex flex-col items-center gap-8">
+    <section class="bg-white/10 rounded-xl shadow-lg p-6 w-full">
+      <form id="stats-form" class="flex flex-col gap-4">
+        <label class="block">
+          <span class="text-blue-100 font-medium">Player Name / Gamertag</span>
+          <input type="text" id="playerName" required class="mt-2 px-4 py-2 w-full rounded-md bg-gray-900 text-white border-2 border-blue-500 focus:outline-none focus:border-blue-400" placeholder="e.g. FlashZee" />
+        </label>
+        <label class="block">
+          <span class="text-blue-100 font-medium">Platform</span>
+          <select id="platform" required class="mt-2 px-4 py-2 w-full rounded-md bg-gray-900 text-white border-2 border-blue-500">
+            <option value="steam">Steam</option>
+            <option value="xboxone">Xbox One</option>
+            <option value="ps">PlayStation</option>
+          </select>
+        </label>
+        <button type="submit" class="mt-4 py-2 px-6 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-md transition-colors">
+          Lookup Stats
+        </button>
+      </form>
+    </section>
+
+    <section id="result-card" class="hidden w-full bg-white/10 rounded-xl shadow-lg p-6">
+      <div id="loading" class="hidden text-blue-200 flex items-center gap-2"><span class="animate-spin inline-block w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full"></span> Loading...</div>
+      <div id="error" class="hidden text-red-400 font-semibold"></div>
+      <div id="profile" class=""></div>
+      <div id="matches" class="mt-6"></div>
+    </section>
+  </main>
+
+  <footer class="mt-auto py-8 text-center text-blue-200 text-sm">
+    <span>Powered by <a href="https://tracker.gg" class="underline text-blue-400">tracker.gg</a> &bull; Battlefield 6 &copy; 2025</span>
+    <br>
+    <span>Open source: <a href="https://github.com/FlashZ/BF6StatsDiscordBot" class="underline text-blue-400">BF6StatsDiscordBot</a></span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
