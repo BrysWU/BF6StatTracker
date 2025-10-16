@@ -1,4 +1,4 @@
-const PROXY_BASE = "https://YOUR-NETLIFY-SITE.netlify.app/api/proxy"; // <-- Change this to your deployed Netlify site domain
+const PROXY_BASE = "https://bf6statbackend.netlify.app/api/proxy"; // <-- Change this to your deployed Netlify site domain
 
 const BASE = "https://api.tracker.gg/api/v2/bf6/standard";
 const profileEndpoint = (platform, userId) => `${BASE}/profile/${platform}/${userId}`;
