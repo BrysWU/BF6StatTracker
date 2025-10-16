@@ -1,3 +1,5 @@
+const PROXY_BASE = "https://YOUR-NETLIFY-SITE.netlify.app/api/proxy"; // <-- Change this to your deployed Netlify site domain
+
 const BASE = "https://api.tracker.gg/api/v2/bf6/standard";
 const profileEndpoint = (platform, userId) => `${BASE}/profile/${platform}/${userId}`;
 const matchesEndpoint = (platform, userId, limit=5) => `${BASE}/matches/${platform}/${userId}?page=1&limit=${limit}`;
@@ -48,7 +50,7 @@ form.addEventListener("submit", async e => {
 
   try {
     // 1. Search for userId via /search
-    let searchUrl = searchEndpoint(platform, playerName);
+    let searchUrl = `${PROXY_BASE}?url=${encodeURIComponent(searchEndpoint(platform, playerName))}`;
     let searchResp = await fetch(searchUrl, {headers: { "Accept": "application/json" }});
     if (!searchResp.ok) throw new Error("Could not search player. API may be blocking requests.");
     let searchData = await searchResp.json();
@@ -63,7 +65,7 @@ form.addEventListener("submit", async e => {
     let countryCode = chosen.additionalParameters?.countryCode || chosen.countryCode || "";
 
     // 2. Fetch profile
-    let profileUrl = profileEndpoint(platform, userId);
+    let profileUrl = `${PROXY_BASE}?url=${encodeURIComponent(profileEndpoint(platform, userId))}`;
     let profileResp = await fetch(profileUrl, {headers: { "Accept": "application/json" }});
     if (!profileResp.ok) throw new Error("Could not fetch player stats. API may be blocking requests.");
     let profileData = await profileResp.json();
@@ -72,7 +74,7 @@ form.addEventListener("submit", async e => {
     let overview = segments[0]?.stats || {};
 
     // 3. Render profile
-    let flagEmoji = countryCode ? countryToEmoji(countryCode) : "";
+    let flagEmoji = countryToEmoji(countryCode);
     let rankImg = overview.careerPlayerRank?.metadata?.imageUrl;
     let thumbnail = rankImg ? `<img src="${imgsvcUrl(rankImg)}" alt="Rank" class="w-16 h-16 rounded-full mb-2"/>` : "";
 
@@ -96,7 +98,7 @@ form.addEventListener("submit", async e => {
     `;
 
     // 4. Fetch recent matches
-    let matchesUrl = matchesEndpoint(platform, userId, 5);
+    let matchesUrl = `${PROXY_BASE}?url=${encodeURIComponent(matchesEndpoint(platform, userId, 5))}`;
     let matchesResp = await fetch(matchesUrl, {headers: { "Accept": "application/json" }});
     let matchesData = await matchesResp.json();
     let recents = matchesData.matches || matchesData.data || matchesData || [];
@@ -133,7 +135,6 @@ form.addEventListener("submit", async e => {
 });
 
 function countryToEmoji(cc) {
-  // Convert ISO country code to emoji flag
   if (!cc || cc.length !== 2) return "";
   return String.fromCodePoint(...[...cc.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 0x41));
 }
